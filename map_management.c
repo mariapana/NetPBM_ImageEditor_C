@@ -1,16 +1,6 @@
 #include "map_management.h"
 
-// char* pic_type(char mgc_wrd[])
-// {
-// 	if (strcmp(mgc_wrd, "P2") == 0)
-// 		return "g_txt";	// grayscale in text file
-// 	else if (strcmp(mgc_wrd, "P5") == 0)
-// 		return "g_bin";	// grayscale in binary file
-// 	else if (strcmp(mgc_wrd, "P3") == 0)
-// 		return "c_txt"; // coloured in txt
-// 	return "c_bin"; // P6, coloured in binary file
-// }
-
+// reading function for struct pixel elements
 void read_pixel_val_txt(int i, int j, pixel **pixmap, FILE *input)
 {
 	pixel pxl;
@@ -22,6 +12,7 @@ void read_pixel_val_txt(int i, int j, pixel **pixmap, FILE *input)
 	pixmap[i][j] = pxl;
 }
 
+// reading function for struct bit elements
 void read_pixel_val_bin(int i, int j, pixel **pixmap, FILE *input)
 {
 	pixel pxl;
@@ -29,10 +20,9 @@ void read_pixel_val_bin(int i, int j, pixel **pixmap, FILE *input)
 	fread(&pxl.g, sizeof(char), 1, input);
 	fread(&pxl.b, sizeof(char), 1, input);
 	pixmap[i][j] = pxl;
-	//printf("%c%c%c ", pixmap[i][j].r, pixmap[i][j].g, pixmap[i][j].b);
 }
 
-// grayscale txt P2
+// grayscale ASCII P2
 void read_bitmap_txt(int m, int n, bit **bitmap, FILE *input)
 {
 	int aux;
@@ -43,27 +33,15 @@ void read_bitmap_txt(int m, int n, bit **bitmap, FILE *input)
 		}
 }
 
-// grayscale bin P5
+// grayscale binary P5
 void read_bitmap_bin(int m, int n, bit **bitmap, FILE *input)
 {
-	for (int i = 0; i < m; i++) {
-		for (int j = 0; j < n; j++) {
+	for (int i = 0; i < m; i++)
+		for (int j = 0; j < n; j++)
 			fread(&(bitmap[i][j].val), sizeof(char), 1, input);
-			//printf("%c ", bitmap[i][j].val);
-		}
-		//printf("\n");
-	}
 }
 
-// void print_bitmap_bin(int m, int n, bit **bitmap, FILE *output)
-// {
-// 	for (int i = 0; i < m; i++) {
-// 		for (int j = 0; j < n; j++)
-// 			printf(bitmap[i][j].val, sizeof(int), 1);
-// 		printf("\n");
-// 	}
-// }
-// color txt P3
+// coloured ASCII P3
 void read_pixmap_txt(int m, int n, pixel **pixmap, FILE *input)
 {
 	for (int i = 0; i < m; i++)
@@ -71,7 +49,7 @@ void read_pixmap_txt(int m, int n, pixel **pixmap, FILE *input)
 			read_pixel_val_txt(i, j, pixmap, input);
 }
 
-// color bin P6
+// coloured binary P6
 void read_pixmap_bin(int m, int n, pixel **pixmap, FILE *input)
 {
 	for (int i = 0; i < m; i++)
@@ -79,14 +57,24 @@ void read_pixmap_bin(int m, int n, pixel **pixmap, FILE *input)
 			read_pixel_val_bin(i, j, pixmap, input);
 }
 
-
 void copy_elems_from_pixmap(pixel **tmp, pixel **map,
-							int m_start,int m_end,
+							int m_start, int m_end,
 							int n_start, int n_end)
 {
-	for (int i = m_start; i < m_end; i++) {
-		for (int j = n_start; j < n_end; j++) {
-			tmp[i][j] = map[i][j];
+	for (int i = 0; i < m_end - m_start; i++) {
+		for (int j = 0; j < n_end - n_start; j++) {
+			tmp[i][j].r = map[i][j].r;
+			tmp[i][j].g = map[i][j].g;
+			tmp[i][j].b = map[i][j].b;
 		}
 	}
+}
+
+void copy_elems_from_bitmap(bit **tmp, bit **map,
+							int m_start, int m_end,
+							int n_start, int n_end)
+{
+	for (int i = 0; i < m_end - m_start; i++)
+		for (int j = 0; j < n_end - n_start; j++)
+			tmp[i][j].val = map[i][j].val;
 }

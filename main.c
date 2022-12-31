@@ -40,15 +40,15 @@ int main(void)
 *							NOTES TO SELF
 * - add comments and documentation
 * 
-* _done_ LOAD
-* _done_ SELECT
-* _done_ SELECT ALL
 * _notdone_ HISTOGRAM
 * _notdone_ EQUALIZE
 * _notdone_ ROTATE
-* _done_ CROP
 * _notdone_ APPLY
 * _notdone_ SAVE
 * _notdone_ EXIT
-* 
+*
+* _done_ LOAD
+* _done_ SELECT
+* _done_ SELECT ALL
+* _done_ CROP
 ******************************************************************************/

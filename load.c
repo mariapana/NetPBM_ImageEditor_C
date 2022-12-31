@@ -1,6 +1,6 @@
 #include "load.h"
 
-#define MWMAX 3
+#define MWMAX 3	// the maximum length of the magic word
 
 void skip_to_eol(FILE *input)
 {
@@ -31,6 +31,7 @@ int read_img(image *photo, FILE *input)
 	check_for_comment(input);
 	char mgc_wrd[MWMAX];
 	fscanf(input, "%s", mgc_wrd);
+	// setting the image type
 	if (strcmp(mgc_wrd, "P2") == 0) {
 		photo->type = '2';
 	} else if (strcmp(mgc_wrd, "P3") == 0) {
@@ -47,7 +48,7 @@ int read_img(image *photo, FILE *input)
 	fscanf(input, "%d %d", &(photo->width), &(photo->height));
 	skip_to_eol(input);
 
-	// initializing selection area
+	// setting selection area
 	photo->x1 = 0;
 	photo->y1 = 0;
 	photo->x2 = photo->width;
@@ -99,8 +100,8 @@ void copiaza_poza(image photo)
 	// verific momentan pt grayscale
 	for (int i = 0; i < photo.height; i++) {
 		for (int j = 0; j < photo.width; j++) {
-			fprintf(output, "%c%c%c", photo.pixmap[i][j].r, photo.pixmap[i][j].g, photo.pixmap[i][j].b);
-			//fprintf(output, "%c", photo.bitmap[i][j].val);
+			//fprintf(output, "%c%c%c", photo.pixmap[i][j].r, photo.pixmap[i][j].g, photo.pixmap[i][j].b);
+			fprintf(output, "%c", photo.bitmap[i][j].val);
 		}
 		//fprintf(output, "\n");
 	}
@@ -128,6 +129,5 @@ void load(char input_file[], image *photo, FILE **input)
 		} else {
 			printf("Failed to open %s\n", input_file);
 		}
-		//copiaza_poza(photo);
 	}
 }

@@ -2,9 +2,13 @@
 
 #define PMAX 3	// the maximum length of the first parameter of the SELECT cmd
 
-// since SELECT ALL is a patricular case of SELECT, I will approach it
-// within the select() function
+/* 
+Note:
+	Since SELECT ALL is a patricular case of SELECT, it will be approached
+	within the select() function.
+*/
 
+// swapping two values using pointers
 void swap(int *a, int *b)
 {
 	int aux = *a;
@@ -12,6 +16,8 @@ void swap(int *a, int *b)
 	*b = aux;
 }
 
+// the implementation of the SELECT and the SELECT ALL commands
+// sets the operable area depending on the given coordinates
 void select(image *photo, FILE *input)
 {
 	char param[PMAX];
