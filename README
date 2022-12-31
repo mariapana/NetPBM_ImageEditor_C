@@ -1,0 +1,37 @@
+##### Copyright Maria Pana 315CA <maria.pana4@gmail.com> 2022-2023
+
+```
+
+████████ ███████ ███    ███  █████      ██████                ██████   ██████ ██      ██████  
+   ██    ██      ████  ████ ██   ██          ██               ██   ██ ██      ██      ██   ██ 
+   ██    █████   ██ ████ ██ ███████      █████      █████     ██████  ██      ██      ██████  
+   ██    ██      ██  ██  ██ ██   ██          ██               ██      ██      ██      ██      
+   ██    ███████ ██      ██ ██   ██     ██████                ██       ██████ ███████ ██      
+                                                                                              
+```
+## How the images are stored
+_relevant files: `struct_def.h`_
+
+Each image is retained in a *struct* called `image` which contains elements retaining each property:
+- `type`: depending on the magic word, the type of the image can be:
+```
+    2 if the magic word is P2 (grayscale ASCII file)
+    5 if the magic word is P5 (grayscale binary file)
+    3 if the magic word is P3 (coloured ASCII file)
+    6 if the magic word is P6 (coloured binary file)
+```
+- `width` and `height`
+- `x1`, `y1`, `x2`, `y2`: coordinates of the selected bits/pixels
+- `max_val`: the maximum value of any element within the bitmap/pixmap
+- `bitmap` and `pixmap`: dynamically allocated matrices storing the given map of values:
+
+    The bitmap stores `bit` elements (also a struct that contains only one element `val`).  
+    The pixmap stores `pixel` elements (also a struct that contains elements `r`, `g`, `b` to store red, green and blue values).
+    Each element (val, r, g, b) is of type `unsigned char` in order to ease the manipulation differences between the ASCII and the binary files.
+    
+Note: For each struct declaration, I prefered to use `typedef` in order to ease future code reading and implementation.
+
+Since the bitmap and pixmap are dynamically allocated matrices, I implemented a series of functions that manage their 
+memory and contents, which will be used in future command implementations.
+
+_relevant files: `memory_management.c`, `memory_management.h`, `map_management.c`, `map_management.h`_
