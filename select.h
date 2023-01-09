@@ -9,13 +9,20 @@
 void swap(int *a, int *b);
 
 /*
-@desc	The implementation of the SELECT and SELECT ALL commands.
+@desc	The implementation of the SELECT command.
+		Sets the operable area to the entire image (coordinates 0, 0,
+		width, height in the struct image photo).
+@param	photo - structure holding image data (image *)
+		input - the file where image is stored (FILE *)
+*/
+void select_all(image *photo, FILE *input);
+
+/*
+@desc	The implementation of the SELECT command.
 		Checks command validity.
 		Sets the operable area to the one determined by the given coordinates
 		(x1, y1, x2, y2 in the struct image photo).
-@param	i, j - indices in the correspondent map of the struct to be read (int)
-		pixmap, bitmap - the matrix / map in which the struct in stored
-		(pixel ** / bit **)
-		input - the file where values are read from (FILE *)
+@param	photo - structure holding image data (image *)
+		input - the file where image is stored (FILE *)
 */
 void select(image *photo, FILE *input);

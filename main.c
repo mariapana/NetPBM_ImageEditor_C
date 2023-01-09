@@ -7,7 +7,13 @@
 #include "map_management.h"
 #include "load.h"
 #include "select.h"
+#include "apply.h"
+#include "histogram.h"
+#include "equalize.h"
+#include "rotate.h"
 #include "crop.h"
+#include "save.h"
+#include "exit.h"
 
 #define CMAX 10	// the maximum command name length
 #define LMAX 70 // the maximum line length
@@ -19,36 +25,38 @@ int main(void)
 	image photo;
 	char cmd[CMAX], input_file[LMAX];
 
-	while (scanf("%s", cmd)) {
+	int stop = 0;
+
+	while (scanf("%s", cmd) && !stop) {
 		if (strcmp(cmd, "LOAD") == 0) {
 			scanf("%s", input_file);
 			load(input_file, &photo, &input);
 		} else if (strcmp(cmd, "SELECT") == 0) {
 			select(&photo, input);
+		} else if (strcmp(cmd, "ROTATE") == 0) {
+			rotate(&photo, input);
 		} else if (strcmp(cmd, "CROP") == 0) {
 			crop(&photo, input);
-		} else if(strcmp(cmd, "vezi") == 0){
-			copiaza_poza(photo);
+		} else if (strcmp(cmd, "APPLY") == 0) {
+			apply(&photo, input);
+		} else if (strcmp(cmd, "HISTOGRAM") == 0) {
+			histogram(photo, input);
+		} else if (strcmp(cmd, "EQUALIZE") == 0) {
+			equalize(photo, input);
+		} else if (strcmp(cmd, "SAVE") == 0) {
+			save(photo, input);
+		} else if (strcmp(cmd, "EXIT") == 0) {
+			exit_editor(photo, input);
+			stop = 1;
 		} else {
+			// the given command is invalid
 			printf("Invalid command\n");
+
+			// ignore the rest of the line
+			char rest_of_line[LMAX];
+			fgets(rest_of_line, LMAX - strlen(cmd), stdin);
 		}
 	}
+
 	return 0;
 }
-
-/******************************************************************************
-*							NOTES TO SELF
-* - add comments and documentation
-* 
-* _notdone_ HISTOGRAM
-* _notdone_ EQUALIZE
-* _notdone_ ROTATE
-* _notdone_ APPLY
-* _notdone_ SAVE
-* _notdone_ EXIT
-*
-* _done_ LOAD
-* _done_ SELECT
-* _done_ SELECT ALL
-* _done_ CROP
-******************************************************************************/

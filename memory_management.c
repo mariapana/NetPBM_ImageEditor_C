@@ -124,3 +124,45 @@ void free_picture(image photo)
 	else
 		free_pixmap(photo.height, photo.pixmap);
 }
+
+void alloc_1D_array(int size, int **v)
+{
+	int *tmp = (int *)malloc(size * sizeof(int));
+	if (!tmp) {
+		fprintf(stderr, "malloc failed for array allocation\n");
+		v = NULL;
+		return;
+	}
+	*v = tmp;
+}
+
+void alloc_2D_array(int m, int n, double ***mat)
+{
+	double **tmp = (double **)malloc(m * sizeof(double *));
+	if (!tmp) {
+		fprintf(stderr, "malloc failed for matrix allocation\n");
+		*mat = NULL;
+		return;
+	}
+
+	for (int i = 0; i < m; i++) {
+		tmp[i] = (double *)malloc(n * sizeof(double));
+		if (!tmp[i]) {
+			for (int j = 0; j < i; j++)
+				free(tmp[j]);
+			free(tmp);
+			fprintf(stderr, "malloc failed for matrix allocation\n");
+			*mat = NULL;
+			return;
+		}
+	}
+
+	*mat = tmp;
+}
+
+void free_2D_array(int m, double **mat)
+{
+	for (int i = 0; i < m; i++)
+		free(mat[i]);
+	free(mat);
+}

@@ -9,7 +9,7 @@
 		(reading the rest of the line but not using any of the data)
 @param	input - the file from where the program reads (FILE *)
 */
-void skip_to_eol(FILE *input);
+void skip_to_eol(FILE * input);
 
 /*
 @desc	Looks for commented lines and ignores them by using the
@@ -25,8 +25,6 @@ void check_for_comment(FILE *input);
 		input - the file from where the program reads (FILE *)
 */
 int read_img(image *photo, FILE *input);
-
-void copiaza_poza(image photo);
 
 /*
 @desc	The implementation of the LOAD command.
